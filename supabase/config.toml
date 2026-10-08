@@ -1,0 +1,51 @@
+# Local Supabase CLI configuration. Project dashboard settings still control hosted SMTP.
+project_id = "study-battle"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173/**"]
+enable_signup = true
+jwt_expiry = 3600
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = true
+max_frequency = "1m"
+otp_length = 6
+otp_expiry = 3600
+
+[auth.email.smtp]
+host = "inbucket"
+port = 54325
+user = "fake_mail_user"
+pass = "fake_mail_password"
+admin_email = "noreply@example.com"
+sender_name = "Study Battle"
+
+[auth.email.template.confirmation]
+subject = "Confirm your Study Battle email"
+content_path = "./supabase/email-templates/confirm-signup.html"
+
+[auth.email.template.recovery]
+subject = "Reset your Study Battle password"
+content_path = "./supabase/email-templates/reset-password.html"
+
+[functions.stripe-webhook]
+verify_jwt = false
