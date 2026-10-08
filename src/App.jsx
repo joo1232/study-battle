@@ -10,6 +10,7 @@ import { isSupabaseConfigured, supabase } from './lib/supabase.js'
 
 const subjects = ['Deep work', 'Mathematics', 'Science', 'Languages', 'Reading', 'Other']
 let pendingAuthCodeExchange = null
+const authRedirect = (query) => `${window.location.origin}${window.location.pathname}?${query}`
 const navItems = [
   { id: 'focus', label: 'Focus room', icon: LayoutDashboard },
   { id: 'friends', label: 'Study circle', icon: Users },
@@ -339,11 +340,11 @@ function AuthScreen({ mode, setMode, error, setError, notify }) {
     event.preventDefault(); setError(''); setMessage(''); setBusy(true)
     try {
       if (isSignup) {
-        const { data, error: authError } = await supabase.auth.signUp({ email: email.trim(), password, options: { emailRedirectTo: `${window.location.origin}/?verified=1`, data: { username: username.trim().toLowerCase() } } })
+        const { data, error: authError } = await supabase.auth.signUp({ email: email.trim(), password, options: { emailRedirectTo: authRedirect('verified=1'), data: { username: username.trim().toLowerCase() } } })
         if (authError) throw authError
         if (!data.session) setMessage('Check your inbox for a verification link. Confirm your email to unlock your study space.')
       } else if (isReset) {
-        const { error: authError } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/?mode=reset` })
+        const { error: authError } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: authRedirect('mode=reset') })
         if (authError) throw authError
         setMessage('If an account matches that email, a password reset link is on its way.')
       } else if (isNewPassword) {
@@ -365,7 +366,7 @@ function AuthScreen({ mode, setMode, error, setError, notify }) {
 
   const resendVerification = async () => {
     setResendBusy(true); setError('')
-    const { error: resendError } = await supabase.auth.resend({ type: 'signup', email: email.trim(), options: { emailRedirectTo: `${window.location.origin}/?verified=1` } })
+    const { error: resendError } = await supabase.auth.resend({ type: 'signup', email: email.trim(), options: { emailRedirectTo: authRedirect('verified=1') } })
     setResendBusy(false)
     if (resendError) setError(resendError.message)
     else setMessage('A fresh verification link is on its way. Check your inbox and spam folder.')
