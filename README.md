@@ -123,23 +123,13 @@ The app uses the PKCE flow. Signup requests a confirmation redirect to `/?verifi
 
 The initial migration grants profile and leaderboard fields to any signed-in user. Do not add sensitive personal data to `profiles` without changing its select policy and API design.
 
-## Deploy to GitHub and host
+## Deploy with GitHub Pages
 
-1. Create an empty GitHub repository.
-2. From this folder, initialize and push the project:
+The GitHub Actions workflow builds this Vite app and publishes it at `https://joo1232.github.io/study-battle/` whenever a change is pushed to `main`. It uses the repository Actions variables `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` to configure the frontend. In **Settings → Pages**, set the build and deployment source to **GitHub Actions** if it is not already selected.
 
-   ```bash
-   git init
-   git add .
-   git commit -m "Build Study Battle Supabase app"
-   git branch -M main
-   git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
-   git push -u origin main
-   ```
+In Supabase **Authentication → URL Configuration**, set the Site URL to `https://joo1232.github.io/study-battle/` and add `https://joo1232.github.io/study-battle/**` to Redirect URLs. Keep `http://localhost:5173/**` there for local development. If you later enable Stripe Edge Functions, set `APP_SITE_URL` to the same Pages URL.
 
-3. Import the repository into Vercel, Netlify, or another static host. Set the two `VITE_SUPABASE_*` environment variables in the host's project settings, then deploy.
-4. Update Supabase **Site URL** and **Redirect URLs** to the deployed HTTPS domain, and set `APP_SITE_URL` in Edge Function secrets to the same origin.
-5. Test a brand-new signup, confirmation link, sign-in, password reset, session persistence, and store purchase on the deployed domain. Test subscription checkout with Stripe test mode before switching to live credentials.
+After the first workflow run completes, open the URL above and try signup, email confirmation, sign-in, and password reset.
 
 Only `.env.example` is committed. `.env` is ignored by Git.
 
