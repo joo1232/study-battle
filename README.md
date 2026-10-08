@@ -125,7 +125,7 @@ The initial migration grants profile and leaderboard fields to any signed-in use
 
 ## Deploy with GitHub Pages
 
-The GitHub Actions workflow builds this Vite app and publishes it at `https://joo1232.github.io/study-battle/` whenever a change is pushed to `main`. It uses the repository Actions variables `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` to configure the frontend. In **Settings → Pages**, set the build and deployment source to **GitHub Actions** if it is not already selected.
+GitHub Pages serves the built site from the `gh-pages` branch at `https://joo1232.github.io/study-battle/`. To update the published site, build with the two `VITE_SUPABASE_*` values from `.env`, then publish the contents of `dist` to the `gh-pages` branch. In **Settings → Pages**, set the deployment source to the `gh-pages` branch and the root folder.
 
 In Supabase **Authentication → URL Configuration**, set the Site URL to `https://joo1232.github.io/study-battle/` and add `https://joo1232.github.io/study-battle/**` to Redirect URLs. Keep `http://localhost:5173/**` there for local development. If you later enable Stripe Edge Functions, set `APP_SITE_URL` to the same Pages URL.
 

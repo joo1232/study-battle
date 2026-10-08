@@ -18,8 +18,8 @@ port = 54323
 
 [auth]
 enabled = true
-site_url = "http://localhost:5173"
-additional_redirect_urls = ["http://localhost:5173/**"]
+site_url = "https://joo1232.github.io/study-battle/"
+additional_redirect_urls = ["https://joo1232.github.io/study-battle/**", "http://localhost:5173/**"]
 enable_signup = true
 jwt_expiry = 3600
 
